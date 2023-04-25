@@ -13,13 +13,14 @@ console.log('///START///////////////////////////////////////////////////////////
 try {
     console.log("///testRootPageTitle('0001')");
     testRootPageTitle('0001');
-    //TODO: Fix the page title for this test.
-    //console.log("///testUserRegistrationPageTitle('0002')");
-    //testUserRegistrationPageTitle('0002');
+    console.log("///testUserRegistrationPageTitle('0002')");
+    testUserRegistrationPageTitle('0002');
     console.log("///testUserRegistrationPageFormEmptySubmit('0003')");
     testUserRegistrationPageFormEmptySubmit('0003');
     console.log("///testUserRegistrationPageFormSubmitWithIncorrectData('0004')");
     testUserRegistrationPageFormSubmitWithIncorrectData('0004');
+    console.log("///testUserLoginPageTitle('0005')");
+    testUserLoginPageTitle('0005');
 } catch (exception) {
     console.error('Something went wrong:', exception.stack);
 }
@@ -62,7 +63,28 @@ function testUserRegistrationPageTitle(test_id) {
             return driver.getTitle();
         })
         .then((title) => {
-            if (title === 'Tavern Raid > Felhasználó regisztráció') {
+            if (title === 'Felhasználó regisztráció') {
+                console.log('///OK' + test_id + ': Page title is:', title);
+            } else {
+                console.error('---ERROR' + test_id + ': Page title does not match the expected title:', title);
+            }
+        })
+        .catch((err) => {
+            console.error('---ERROR' + test_id + ': ', err.stack);
+        })
+        .finally(() => {
+            return driver.quit();
+        });
+}
+
+function testUserLoginPageTitle(test_id) {
+    const driver = getDriver();
+    driver.get('https://theapp.artidas.hu/tavernraid/web/user/login')
+        .then(() => {
+            return driver.getTitle();
+        })
+        .then((title) => {
+            if (title === 'Felhasználó bejelentkezés') {
                 console.log('///OK' + test_id + ': Page title is:', title);
             } else {
                 console.error('---ERROR' + test_id + ': Page title does not match the expected title:', title);
